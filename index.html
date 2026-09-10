@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-[#F8F9FA]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Français - 2e commune | Révisions - Les fonctions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Accessibility & Dyslexia Friendly options -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Canvas Confetti Library for Gamification -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#001D74',
+                            red: '#C4332B',
+                            yellow: '#ECA531',
+                            dark: '#1E293B',
+                            bg: '#F8F9FA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Lexend', 'Atkinson Hyperlegible', 'Open Sans', 'sans-serif'],
+                        dys: ['Atkinson Hyperlegible', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .font-dyslexic {
+            font-family: 'Atkinson Hyperlegible', 'Lexend', sans-serif !important;
+            letter-spacing: 0.05em;
+            word-spacing: 0.1em;
+            line-height: 1.8 !important;
+        }
+
+        .high-contrast {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        .high-contrast .bg-brand-blue {
+            background-color: #000055 !important;
+        }
+
+        /* Focus styles for keyboard accessibility */
+        *:focus-visible {
+            outline: 3px solid #ECA531 !important;
+            outline-offset: 3px;
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F9FA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #001D74;
+            border-radius: 4px;
+        }
+
+        /* Animation for highlight */
+        .pulse-highlight {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(236, 165, 49, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(236, 165, 49, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(236, 165, 49, 0); }
+        }
+    </style>
+</head>
+<body class="h-full text-brand-dark flex flex-col font-sans bg-[#F8F9FA] antialiased selection:bg-brand-yellow/30 selection:text-brand-blue" id="app-body">
+
+    <header class="bg-brand-blue text-white shadow-md border-b-4 border-brand-yellow sticky top-0 z-50">
+        <!-- Top Accessibility Bar -->
+        <div class="bg-slate-900 text-xs px-4 py-1 flex justify-between items-center border-b border-slate-700">
+            <div class="flex items-center space-x-2">
+                <span class="font-semibold text-brand-yellow">Options d'accessibilité (DYS/TDAH/Vision) :</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDyslexicFont()" id="dys-btn" class="hover:text-brand-yellow transition flex items-center gap-1 focus:ring-1 focus:ring-brand-yellow px-2 py-0.5 rounded" aria-label="Activer/Désactiver la police adaptée dys">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Police DYS</span>
+                </button>
+                <button onclick="toggleTextSize()" class="hover:text-brand-yellow transition flex items-center gap-1 focus:ring-1 focus:ring-brand-yellow px-2 py-0.5 rounded" aria-label="Agrandir ou réduire le texte">
+                    <span class="font-bold">A+</span>
+                    <span>Taille</span>
+                </button>
+                <button onclick="toggleSound()" id="sound-btn" class="hover:text-brand-yellow transition flex items-center gap-1 focus:ring-1 focus:ring-brand-yellow px-2 py-0.5 rounded" aria-label="Activer/Désactiver le son">
+                    <svg id="sound-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span id="sound-text">Sons ON</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Header Content -->
+        <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
+            <!-- Left Header: Logo & Titles -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="flex-shrink-0 bg-white/10 p-1.5 rounded-lg hover:bg-white/20 transition">
+                    <img src="https://www.wbe.be/fileadmin/sites/wbe/uploads/images/Poles_territoriaux/logo-poles-terr-GRAND.png" 
+                         alt="Logo Pôle Territorial WBE" 
+                         class="h-10 sm:h-12 w-auto object-contain"
+                         onerror="this.src='https://placehold.co/180x60/001D74/FFFFFF?text=P%C3%B4le+WBE'">
+                </a>
+                <div class="border-l border-white/20 pl-4">
+                    <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                        <span>Français - 2<sup>e</sup> commune</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-brand-yellow font-medium">
+                        Révisions - Les fonctions grammaticales
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Header: Score & Level Box -->
+            <div class="flex items-center space-x-3 bg-white/10 border border-white/20 rounded-xl p-2 sm:px-4 sm:py-2">
+                <div class="bg-brand-yellow/20 p-2 rounded-lg border border-brand-yellow/40">
+                    <!-- SVG Trophy Icon -->
+                    <svg class="w-6 h-6 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H8v2h8v-2h-3v-2.1c1.94-.38 3.44-1.9 3.86-3.86C19.08 11.63 21 9.55 21 7V5c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-[10px] uppercase font-bold tracking-wider text-slate-200">Score Total</div>
+                    <div class="text-lg sm:text-2xl font-black text-brand-yellow tracking-wide flex items-center gap-1">
+                        <span id="user-score">0</span> <span class="text-xs font-normal text-white">pts</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block border-l border-white/20 pl-3 ml-1">
+                    <div class="text-[10px] uppercase font-bold tracking-wider text-slate-200">Série</div>
+                    <div class="text-sm font-bold text-emerald-400 flex items-center gap-1">
+                        <span id="user-streak">⚡ 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[73px] z-40" aria-label="Navigation principale">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-around sm:justify-start space-x-1 sm:space-x-4">
+                
+                <!-- Tab 1 Button -->
+                <button onclick="switchTab('tab-intro')" id="btn-tab-intro" 
+                        class="tab-btn active-tab flex items-center gap-2 py-3 px-3 sm:px-5 border-b-4 border-brand-blue text-brand-blue font-bold text-sm sm:text-base transition hover:bg-slate-50 focus:outline-none">
+                    <!-- SVG Book/Info Icon -->
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>1. Introduction</span>
+                </button>
+
+                <!-- Tab 2 Button -->
+                <button onclick="switchTab('tab-study')" id="btn-tab-study" 
+                        class="tab-btn flex items-center gap-2 py-3 px-3 sm:px-5 border-b-4 border-transparent text-slate-600 hover:text-brand-blue font-bold text-sm sm:text-base transition hover:bg-slate-50 focus:outline-none">
+                    <!-- SVG Graduation/Study Icon -->
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                    </svg>
+                    <span>2. J'étudie</span>
+                </button>
+
+                <!-- Tab 3 Button -->
+                <button onclick="switchTab('tab-practice')" id="btn-tab-practice" 
+                        class="tab-btn flex items-center gap-2 py-3 px-3 sm:px-5 border-b-4 border-transparent text-slate-600 hover:text-brand-blue font-bold text-sm sm:text-base transition hover:bg-slate-50 focus:outline-none">
+                    <!-- SVG Target/Gamepad Icon -->
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>3. Je pratique</span>
+                    <span class="ml-1 px-2 py-0.5 text-xs bg-brand-red text-white rounded-full font-bold uppercase tracking-wider hidden sm:inline-block">Quiz</span>
+                </button>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ========================================== -->
+        <!-- TAB 1 : INTRODUCTION -->
+        <!-- ========================================== -->
+        <section id="tab-intro" class="tab-content block space-y-6">
+            
+            <!-- Standard Header Block for Tab -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <span class="inline-block px-3 py-1 bg-brand-blue/10 text-brand-blue text-xs font-bold rounded-full uppercase tracking-wider mb-2">
+                    Niveau 1er/2e secondaire • CE1D
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-blue">Bienvenue dans ton espace de révision !</h2>
+                <p class="text-base text-slate-600 mt-2">
+                    Maîtriser l'analyse de phrase et identifier les fonctions grammaticales.
+                </p>
+            </div>
+
+            <!-- Main Intro Content -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Left Main Hero Card -->
+                <div class="md:col-span-2 bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-brand-blue">
+                            <div class="p-3 bg-brand-yellow/20 rounded-xl text-brand-blue">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-blue">Pourquoi travailler les fonctions grammaticales ?</h3>
+                        </div>
+
+                        <p class="text-slate-700 leading-relaxed text-base">
+                            Dans cette application, tu vas apprendre et t'exercer à reconnaître les différentes <strong class="text-brand-blue">fonctions grammaticales</strong> au sein de la phrase en français.
+                        </p>
+
+                        <div class="p-4 bg-amber-50 border-l-4 border-brand-yellow rounded-r-xl space-y-2">
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-brand-yellow" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                                Un enjeu clé pour le CE1D !
+                            </h4>
+                            <p class="text-sm text-slate-700">
+                                L'analyse de phrase est un point <strong>essentiel et incontournable</strong> de votre formation. Elle vous prépare directement aux épreuves du <strong>CE1D</strong> (Certificat d'études du premier degré secondaire) en Belgique. Comprendre la fonction des mots te permettra de mieux écrire, de mieux ponctuer et de réussir tes évaluations !
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                                <div class="font-bold text-brand-blue text-lg">1. Découvrir</div>
+                                <div class="text-xs text-slate-500">Relis les règles et exemples clairs dans l'onglet "J'étudie".</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                                <div class="font-bold text-brand-blue text-lg">2. S'entraîner</div>
+                                <div class="text-xs text-slate-500">Réponds aux séries de 10 questions aléatoires.</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                                <div class="font-bold text-brand-blue text-lg">3. Progresser</div>
+                                <div class="text-xs text-slate-500">Gagne des points et débloque des succès !</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call To Action Button -->
+                    <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+                        <button onclick="switchTab('tab-study')" class="flex-1 px-6 py-3.5 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <span>J'étudie la leçon</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                        <button onclick="switchTab('tab-practice')" class="flex-1 px-6 py-3.5 bg-brand-red hover:bg-red-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <span>Démarrer les exercices direct</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Info Card -->
+                <div class="bg-gradient-to-br from-brand-blue to-slate-900 rounded-2xl p-6 text-white shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-brand-yellow text-brand-dark text-xs font-black rounded-full uppercase">
+                                Aide & Accessibilité
+                            </span>
+                            <!-- SVG Accessibility badge -->
+                            <svg class="w-6 h-6 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Conçu pour la réussite de tous !</h4>
+                        <p class="text-sm text-slate-200 leading-relaxed space-y-2">
+                            Cette application a été spécialement structurée avec le <strong>Pôle Territorial WBE</strong> pour accompagner tous les élèves :
+                        </p>
+                        <ul class="mt-4 text-xs space-y-2 text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-yellow">✓</span>
+                                <span><strong>Police adaptée Dyslexie :</strong> active-la en un clic en haut de l'écran.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-yellow">✓</span>
+                                <span><strong>Synthèse vocale :</strong> clique sur le bouton haut-parleur pour écouter la phrase.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand-yellow">✓</span>
+                                <span><strong>Clarté visuelle TDAH :</strong> un cadre sobre et guidé pour éviter la surcharge d'informations.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-white/10 text-center text-xs text-slate-400">
+                        Pôle Territorial WBE Bruxelles
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2 : J'ÉTUDIE -->
+        <!-- ========================================== -->
+        <section id="tab-study" class="tab-content hidden space-y-6">
+            
+            <!-- Standard Header Block -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-brand-blue/10 text-brand-blue text-xs font-bold rounded-full uppercase tracking-wider mb-2">
+                        Fiche de synthèse
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-blue">2. J'étudie mes règles</h2>
+                    <p class="text-base text-slate-600 mt-1">
+                        Découvre ou revois le rôle de chaque groupe de mots dans la phrase.
+                    </p>
+                </div>
+                <button onclick="switchTab('tab-practice')" class="px-5 py-3 bg-brand-red hover:bg-red-800 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2 text-sm flex-shrink-0">
+                    <span>Passer aux exercices</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+
+            <!-- Definition Box -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border-l-8 border-brand-blue space-y-3">
+                <div class="flex items-center gap-3">
+                    <span class="p-2 bg-brand-blue/10 text-brand-blue rounded-lg font-bold text-xl">💡</span>
+                    <h3 class="text-xl font-bold text-brand-blue">Qu'est-ce qu'une fonction grammaticale ?</h3>
+                </div>
+                <p class="text-slate-800 text-lg leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    « Une fonction grammaticale est le <strong>rôle</strong> qu'un mot ou un groupe de mots joue dans une phrase par rapport aux autres éléments. »
+                </p>
+            </div>
+
+            <!-- 3 Main Grammatical Categories Accordion/Cards -->
+            <div class="space-y-6">
+
+                <!-- SECTION A -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-brand-blue text-white p-4 sm:p-5 flex items-center justify-between">
+                        <h3 class="text-lg sm:text-xl font-bold flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-extrabold text-base">A</span>
+                            <span>Les fonctions par rapport au verbe</span>
+                        </h3>
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full text-slate-200">Verbe noyau</span>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Card 1: Sujet -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">Le sujet</h4>
+                                <span class="px-2 py-0.5 bg-blue-100 text-brand-blue text-xs font-semibold rounded">Indispensable</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Il indique qui fait l'action ou qui est dans l'état décrit par le verbe.</p>
+                            <div class="mt-3 p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-slate-800 font-medium">
+                                <span class="text-brand-red font-bold">Astuce :</span> Je le trouve en posant la question <strong>« qui est-ce qui ? »</strong> ou <strong>« qu'est-ce qui ? »</strong>.
+                            </div>
+                        </div>
+
+                        <!-- Card 2: CDV -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">Le CDV (Complément Direct du Verbe)</h4>
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded">Direct</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Il est relié directement au verbe d'action, sans préposition.</p>
+                            <div class="mt-3 p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-slate-800 font-medium">
+                                <span class="text-brand-red font-bold">Astuce :</span> Je le trouve avec la question <strong>« qui ? »</strong> ou <strong>« quoi ? »</strong> après le verbe.
+                            </div>
+                        </div>
+
+                        <!-- Card 3: CDI -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">Le CDI (Complément Indirect du Verbe)</h4>
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded">Préposition</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Il est relié au verbe par une préposition (ex: <em>à, de</em>).</p>
+                            <div class="mt-3 p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-slate-800 font-medium">
+                                <span class="text-brand-red font-bold">Astuce :</span> On pose la question <strong>« à qui ? », « de quoi ? », « à quoi ? »</strong>.
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Complément d'agent -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">Le complément d'agent</h4>
+                                <span class="px-2 py-0.5 bg-rose-100 text-rose-800 text-xs font-semibold rounded">Voix passive</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Il indique qui fait l'action dans une phrase à la voix passive.</p>
+                            <div class="mt-3 p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-slate-800 font-medium">
+                                <span class="text-brand-red font-bold">Astuce :</span> Il est généralement introduit par <strong>« par »</strong> ou <strong>« de »</strong>.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SECTION B -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-brand-blue text-white p-4 sm:p-5 flex items-center justify-between">
+                        <h3 class="text-lg sm:text-xl font-bold flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-extrabold text-base">B</span>
+                            <span>Les fonctions par rapport au nom (Expansions du nom)</span>
+                        </h3>
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full text-slate-200">Groupe Nominal</span>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Card 1: Attribut du sujet -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">L'attribut du sujet</h4>
+                                <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">Verbe d'état</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Il donne une information sur le sujet par l'intermédiaire d'un verbe d'état.</p>
+                            <div class="mt-3 p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-slate-800 font-medium">
+                                <span class="text-brand-red font-bold">Verbes d'état :</span> <em>être, paraître, sembler, demeurer, devenir, avoir l'air de...</em>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Épithète -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">L'épithète</h4>
+                                <span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-xs font-semibold rounded">Adjectif</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Un adjectif placé directement à côté (avant ou après) du nom qu'il qualifie.</p>
+                            <div class="mt-3 p-2.5 bg-slate-200/60 rounded-lg text-xs text-slate-800 font-medium">
+                                Ex: Un mot <em>[rouge]</em>, une <em>[excellente]</em> note.
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Complément du nom -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">Le complément du nom (CDN)</h4>
+                                <span class="px-2 py-0.5 bg-cyan-100 text-cyan-800 text-xs font-semibold rounded">Préposition / Subordonnée</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Un groupe de mots ou une proposition qui complète le nom.</p>
+                            <div class="mt-3 p-2.5 bg-slate-200/60 rounded-lg text-xs text-slate-800 font-medium">
+                                Ex: Le fil <em>[de la conversation]</em>, la fleur <em>[que j'ai achetée]</em>.
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Apposition -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-brand-blue transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-brand-blue text-lg">L'apposition</h4>
+                                <span class="px-2 py-0.5 bg-orange-100 text-orange-800 text-xs font-semibold rounded">Entre virgules</span>
+                            </div>
+                            <p class="text-sm text-slate-700">Un mot ou groupe de mots séparé du nom par une virgule pour le préciser ou le renommer.</p>
+                            <div class="mt-3 p-2.5 bg-slate-200/60 rounded-lg text-xs text-slate-800 font-medium">
+                                Ex: Cette avocate, <em>[remarquable]</em>, a gagné.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SECTION C -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-brand-blue text-white p-4 sm:p-5 flex items-center justify-between">
+                        <h3 class="text-lg sm:text-xl font-bold flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-extrabold text-base">C</span>
+                            <span>Les fonctions par rapport à toute la phrase</span>
+                        </h3>
+                        <span class="text-xs bg-white/20 px-3 py-1 rounded-full text-slate-200">Circonstanciels</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <h4 class="font-bold text-brand-blue text-lg mb-2">Le complément circonstanciel (CC)</h4>
+                            <p class="text-sm text-slate-700 mb-3">
+                                Il donne des précisions sur le contexte de l'action. <strong>Propriété essentielle :</strong> On peut généralement le <em>déplacer</em> ou le <em>supprimer</em>.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 text-xs">
+                                    <strong class="text-brand-blue block mb-1">📍 CC de Lieu :</strong>
+                                    <span>Où ? (ex: <em>dans la chambre</em>)</span>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 text-xs">
+                                    <strong class="text-brand-blue block mb-1">⏰ CC de Temps :</strong>
+                                    <span>Quand ? (ex: <em>demain, hier</em>)</span>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 text-xs">
+                                    <strong class="text-brand-blue block mb-1">🏃 CC de Manière :</strong>
+                                    <span>Comment ? (ex: <em>profondément</em>)</span>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 text-xs">
+                                    <strong class="text-brand-blue block mb-1">🎯 CC de But / Cause :</strong>
+                                    <span>Pourquoi ?Dans quel but ?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Call to action -->
+            <div class="text-center pt-4">
+                <button onclick="switchTab('tab-practice')" class="px-8 py-4 bg-brand-red hover:bg-red-800 text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 inline-flex items-center gap-3">
+                    <span>Lancer une série d'exercices</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3 : JE PRATIQUE -->
+        <!-- ========================================== -->
+        <section id="tab-practice" class="tab-content hidden space-y-6">
+            
+            <!-- Standard Header Block -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-brand-red text-white text-xs font-bold rounded-full uppercase tracking-wider mb-2">
+                        Zone de jeu & Entraînement
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-blue">3. Je pratique</h2>
+                    <p class="text-base text-slate-600 mt-1">
+                        Analyse les groupes de mots soulignés et gagne un max de points !
+                    </p>
+                </div>
+
+                <!-- Game Selector Pill Buttons -->
+                <div class="flex items-center bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full sm:w-auto overflow-x-auto">
+                    <button onclick="setGameMode(1)" id="mode-btn-1" class="mode-btn font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition bg-brand-blue text-white shadow-sm">
+                        Jeu 1: Catégorie
+                    </button>
+                    <button onclick="setGameMode(2)" id="mode-btn-2" class="mode-btn font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition text-slate-600 hover:text-brand-blue">
+                        Jeu 2: QCM (4 choix)
+                    </button>
+                    <button onclick="setGameMode(3)" id="mode-btn-3" class="mode-btn font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition text-slate-600 hover:text-brand-blue">
+                        Jeu 3: Saisie guidée
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Main Box Card -->
+            <div id="quiz-card" class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                
+                <!-- Progress bar and Question info -->
+                <div class="bg-slate-50 border-b border-slate-200 p-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Question</span>
+                        <span id="current-q-num" class="px-2.5 py-1 bg-brand-blue text-white rounded-lg font-black text-sm">1/10</span>
+                        <span id="mode-badge-title" class="text-xs text-brand-blue font-bold px-2 py-0.5 bg-blue-50 rounded border border-blue-200">
+                            Mode 1: Identification Globale
+                        </span>
+                    </div>
+
+                    <!-- Audio Reader Button for Question -->
+                    <button onclick="readCurrentSentence()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition flex items-center gap-1.5" title="Lire la phrase à haute voix">
+                        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>Écouter la phrase</span>
+                    </button>
+                </div>
+
+                <!-- Progress Bar Line -->
+                <div class="w-full bg-slate-200 h-2">
+                    <div id="quiz-progress-bar" class="bg-brand-yellow h-2 transition-all duration-300" style="width: 10%;"></div>
+                </div>
+
+                <!-- Sentence Display Container -->
+                <div class="p-6 sm:p-10 space-y-6">
+                    
+                    <div class="text-center space-y-3">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Analyse la fonction du groupe entre crochets :</p>
+                        
+                        <div class="p-6 sm:p-8 bg-slate-50 rounded-2xl border border-slate-200 text-lg sm:text-2xl font-medium text-slate-800 leading-relaxed max-w-4xl mx-auto shadow-inner" id="sentence-container">
+                            <!-- Sentence with target group styled -->
+                        </div>
+                    </div>
+
+                    <!-- INTERACTIVE GAME CONTENT CONTAINER -->
+                    <div id="game-interaction-area" class="max-w-2xl mx-auto pt-4">
+                        <!-- Content inserted dynamically based on Game 1, 2, or 3 -->
+                    </div>
+
+                    <!-- Feedback Alert Container -->
+                    <div id="feedback-container" class="max-w-2xl mx-auto hidden transition-all duration-300">
+                        <div id="feedback-box" class="p-4 sm:p-5 rounded-2xl border flex items-start gap-4">
+                            <div id="feedback-icon" class="p-2 rounded-xl text-xl flex-shrink-0"></div>
+                            <div class="space-y-1">
+                                <h4 id="feedback-title" class="font-extrabold text-lg"></h4>
+                                <p id="feedback-message" class="text-sm leading-relaxed"></p>
+                            </div>
+                        </div>
+
+                        <!-- Next Question Button -->
+                        <div class="mt-4 text-center">
+                            <button onclick="nextQuestion()" class="px-8 py-3 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl shadow-md transition flex items-center gap-2 mx-auto text-base">
+                                <span>Question suivante</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Quiz Finish Recap Screen (Hidden by default) -->
+            <div id="quiz-recap-screen" class="hidden bg-white rounded-2xl shadow-lg border border-slate-200 p-8 text-center space-y-6 max-w-2xl mx-auto">
+                <div class="p-4 bg-brand-yellow/20 rounded-full w-20 h-20 mx-auto flex items-center justify-center text-brand-yellow text-4xl">
+                    🏆
+                </div>
+                <div>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase">Série terminée !</span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-brand-blue mt-2">Félicitations pour tes efforts !</h3>
+                    <p class="text-slate-600 mt-1">Tu as complété tes 10 phrases d'entraînement.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div>
+                        <div class="text-xs text-slate-500 font-bold uppercase">Réponses justes</div>
+                        <div id="recap-score" class="text-2xl font-black text-brand-blue">0 / 10</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-bold uppercase">Points gagnés</div>
+                        <div id="recap-points" class="text-2xl font-black text-brand-yellow">+0 pts</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500 font-bold uppercase">Précision</div>
+                        <div id="recap-accuracy" class="text-2xl font-black text-emerald-600">0%</div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-blue-50 text-brand-blue text-sm rounded-xl border border-blue-200 font-medium" id="recap-motivation-msg">
+                    Chaque exercice te rapproche de la réussite de ton CE1D ! Continue comme ça !
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                    <button onclick="restartCurrentGame()" class="px-6 py-3.5 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        <span>Recommencer une série</span>
+                    </button>
+                    <button onclick="switchTab('tab-study')" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
+                        <span>Revoir la leçon</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-blue text-white border-t-4 border-brand-yellow mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+            <div class="text-slate-200 text-center sm:text-left">
+                © Pôle territorial WBE Bruxelles - Tous droits réservés.
+            </div>
+            <div class="text-brand-yellow font-semibold text-center sm:text-right">
+                Application d'apprentissage du Français
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Comprehensive resource bank extracted & formatted from prompt requirements
+        const SENTENCE_BANK = [
+            { id: 1, text: "Ma mère a organisé [une réception]. Seras-tu des nôtres ?", target: "une réception", func: "complément direct du verbe", category: "verbe" },
+            { id: 2, text: "[Ma mère] a organisé une réception. Seras-tu des nôtres ?", target: "Ma mère", func: "sujet", category: "verbe" },
+            { id: 3, text: "Ma mère a organisé une réception. Seras-[tu] des nôtres ?", target: "tu", func: "sujet", category: "verbe" },
+            { id: 4, text: "Eve est [pianiste], elle tient beaucoup à son piano, qui lui a été offert.", target: "pianiste", func: "attribut du sujet", category: "nom" },
+            { id: 5, text: "Eve est pianiste, elle tient beaucoup [à son piano], qui lui a été offert.", target: "à son piano", func: "complément indirect du verbe", category: "verbe" },
+            { id: 6, text: "Eve est pianiste, elle tient beaucoup à son piano, [qui lui a été offert].", target: "qui lui a été offert", func: "complément du nom", category: "nom" },
+            { id: 7, text: "Cette avocate, [remarquable], a gagné le procès.", target: "remarquable", func: "apposition", category: "nom" },
+            { id: 8, text: "Cette avocate, remarquable, a gagné [le procès].", target: "le procès", func: "complément direct du verbe", category: "verbe" },
+            { id: 9, text: "Des secrets, il [leur] en ont déclarés plusieurs quand il a appris la nouvelle.", target: "leur", func: "complément indirect du verbe", category: "verbe" },
+            { id: 10, text: "Des secrets, il leur en ont déclarés plusieurs [quand il a appris la nouvelle].", target: "quand il a appris la nouvelle", func: "complément circumstantial de temps", category: "phrase" },
+            { id: 11, text: "Mon stylo [rouge] est sur ton bureau.", target: "rouge", func: "épithète", category: "nom" },
+            { id: 12, text: "[Mon stylo rouge] est sur ton bureau.", target: "Mon stylo rouge", func: "sujet", category: "verbe" },
+            { id: 13, text: "Lili obéit [au professeur] ; elle reçoit beaucoup de remontrances car elle est trop bavarde.", target: "au professeur", func: "complément indirect du verbe", category: "verbe" },
+            { id: 14, text: "Lili obéit au professeur ; [elle] reçoit beaucoup de remontrances car elle est trop bavarde.", target: "elle", func: "sujet", category: "verbe" },
+            { id: 15, text: "Lili obéit au professeur ; elle reçoit [beaucoup de remontrances] car elle est trop bavarde.", target: "beaucoup de remontrances", func: "complément direct du verbe", category: "verbe" },
+            { id: 16, text: "Lili obéit au professeur ; elle reçoit beaucoup de remontrances [car elle est trop bavarde].", target: "car elle est trop bavarde", func: "complément circonstanciel de cause", category: "phrase" },
+            { id: 17, text: "Lili obéit au professeur ; elle reçoit beaucoup de remontrances car elle est trop [bavarde].", target: "bavarde", func: "attribut du sujet", category: "nom" },
+            { id: 18, text: "[Pour t’envoyer mes vœux de bonne année], Lola a commencé à écrire avec un crayon, puis elle a poursuivi au stylo.", target: "Pour t’envoyer mes vœux de bonne année", func: "complément circonstanciel de but", category: "phrase" },
+            { id: 19, text: "Pour t’envoyer mes vœux de bonne année, Lola a commencé à écrire [avec un crayon], puis elle a poursuivi au stylo.", target: "avec un crayon", func: "complément circonstanciel de manière", category: "phrase" },
+            { id: 20, text: "Les arbres [que j’observe] sont d’un vert éclatant.", target: "que j’observe", func: "complément du nom", category: "nom" },
+            { id: 21, text: "Les arbres que j’observe sont d’un vert [éclatant].", target: "éclatant", func: "épithète", category: "nom" },
+            { id: 22, text: "Cette femme, [une avocate très connue dans la région], lui a téléphoné.", target: "une avocate très connue dans la région", func: "apposition", category: "nom" },
+            { id: 23, text: "La salle où se trouvaient [nos interlocuteurs] était spacieuse et obscure.", target: "nos interlocuteurs", func: "sujet", category: "verbe" },
+            { id: 24, text: "La salle [où se trouvaient nos interlocuteurs] était spacieuse et obscure.", target: "où se trouvaient nos interlocuteurs", func: "complément du nom", category: "nom" },
+            { id: 25, text: "La salle où se trouvaient nos interlocuteurs était [spacieuse et obscure].", target: "spacieuse et obscure", func: "attribut du sujet", category: "nom" },
+            { id: 26, text: "[Un soir, au coucher du soleil], assis près de son amie, au fond du verger, loin des importuns, il rêvait profondément.", target: "Un soir, au coucher du soleil", func: "complément circonstanciel de temps", category: "phrase" },
+            { id: 27, text: "Un soir, au coucher du soleil, assis près de son amie, au fond du verger, loin des importuns, il rêvait [profondément].", target: "profondément", func: "complément circonstanciel de manière", category: "phrase" },
+            { id: 28, text: "Un soir, au coucher du soleil, assis près de son amie, [au fond du verger], loin des importuns, il rêvait profondément.", target: "au fond du verger", func: "complément circumstantial de lieu", category: "phrase" },
+            { id: 29, text: "Un soir, au coucher [du soleil], assis près de son amie, au fond du verger, loin des importuns, il rêvait profondément.", target: "du soleil", func: "complément du nom", category: "nom" },
+            { id: 30, text: "Un soir, Pauline [me] raconta son histoire.", target: "me", func: "complément indirect du verbe", category: "verbe" },
+            { id: 31, text: "Un soir, Pauline me raconta [son histoire].", target: "son histoire", func: "complément direct du verbe", category: "verbe" },
+            { id: 32, text: "[Pendant que sa mère descendait], Alaire retourna dans sa chambre.", target: "Pendant que sa mère descendait", func: "complément circonstanciel de temps", category: "phrase" },
+            { id: 33, text: "Pendant que sa mère descendait, Alaire retourna [dans sa chambre].", target: "dans sa chambre", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 34, text: "Pendant que sa mère descendait, [Alaire] retourna dans sa chambre.", target: "Alaire", func: "sujet", category: "verbe" },
+            { id: 35, text: "Pendant que sa mère descendait, Alaire [retourna] dans sa chambre.", target: "retourna", func: "verbe", category: "verbe" },
+            { id: 36, text: "Je verrai [Fred] demain, à la patinoire.", target: "Fred", func: "complément direct du verbe", category: "verbe" },
+            { id: 37, text: "La maîtresse s’étonne [de leur manque de travail].", target: "de leur manque de travail", func: "complément indirect du verbe", category: "verbe" },
+            { id: 38, text: "La maîtresse s’étonne de leur manque [de travail].", target: "de travail", func: "complément du nom", category: "nom" },
+            { id: 39, text: "Johanna rédige [sa réponse] dans le cahier.", target: "sa réponse", func: "complément direct du verbe", category: "verbe" },
+            { id: 40, text: "[Johanna] rédige sa réponse dans le cahier.", target: "Johanna", func: "sujet", category: "verbe" },
+            { id: 41, text: "Johanna rédige sa réponse [dans le cahier].", target: "dans le cahier", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 42, text: "Mallory se plaint souvent [de maux de tête].", target: "de maux de tête", func: "complément indirect du verbe", category: "verbe" },
+            { id: 43, text: "Je pense [à ce que vous m’avez dit].", target: "à ce que vous m’avez dit", func: "complément indirect du verbe", category: "verbe" },
+            { id: 44, text: "J’entends [les enfants jouer dans la cour].", target: "les enfants jouer dans la cour", func: "complément direct du verbe", category: "verbe" },
+            { id: 45, text: "On a élu Alice [présidente].", target: "présidente", func: "attribut du sujet", category: "nom" },
+            { id: 46, text: "Ce tableau est [magnifique].", target: "magnifique", func: "attribut du sujet", category: "nom" },
+            { id: 47, text: "Le facteur distribue le courrier [à huit heures].", target: "à huit heures", func: "complément circumstantial de temps", category: "phrase" },
+            { id: 48, text: "Du chocolat ? Il [en] a mangé à s'en exploser l'estomac.", target: "en", func: "complément direct du verbe", category: "verbe" },
+            { id: 49, text: "Le facteur distribue le courrier rapidement [de sorte qu’il termine sa tournée plus tôt aujourd’hui].", target: "de sorte qu’il termine sa tournée plus tôt aujourd’hui", func: "complément circonstanciel de but", category: "phrase" },
+            { id: 50, text: "Le facteur distribue le courrier [en se dépêchant].", target: "en se dépêchant", func: "complément circonstanciel de manière", category: "phrase" },
+            { id: 51, text: "Cet ouvrier travaille difficilement [pour gagner sa vie].", target: "pour gagner sa vie", func: "complément circonstanciel de but", category: "phrase" },
+            { id: 52, text: "Ce n'est pas un livre [à ne pas mettre entre toutes les mains].", target: "à ne pas mettre entre toutes les mains", func: "complément du nom", category: "nom" },
+            { id: 53, text: "La crainte [qu’elle parte] m’envahit.", target: "qu’elle parte", func: "complément du nom", category: "nom" },
+            { id: 54, text: "La crainte qu’elle parte [m’]envahit.", target: "m’", func: "complément direct du verbe", category: "verbe" },
+            { id: 55, text: "Autour de moi, il y avait [énormément de personnes que je ne parvenais pas à identifier].", target: "énormément de personnes que je ne parvenais pas à identifier", func: "complément du présentatif", category: "phrase" },
+            { id: 56, text: "[Autour de moi], il y avait énormément de personnes que je ne parvenais pas à identifier.", target: "Autour de moi", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 57, text: "Autour de moi, il y avait énormément de personnes [que je ne parvenais pas à identifier].", target: "que je ne parvenais pas à identifier", func: "complément du nom", category: "nom" },
+            { id: 58, text: "Cette avocate remarquable, [exaspérée], quitta le tribunal.", target: "exaspérée", func: "apposition", category: "nom" },
+            { id: 59, text: "Cette avocate [remarquable], exaspérée, quitta le tribunal.", target: "remarquable", func: "épithète", category: "nom" },
+            { id: 60, text: "Cette avocate remarquable, exaspérée, quitta [le tribunal].", target: "le tribunal", func: "complément direct du verbe", category: "verbe" },
+            { id: 61, text: "Elle était poursuivie dans la rue [par une tonne de paparazzis].", target: "par une tonne de paparazzis", func: "complément d'agent", category: "verbe" },
+            { id: 62, text: "Il reçut [un tonnerre d'applaudissements] après avoir réalisé un incroyable spectacle.", target: "un tonnerre d'applaudissements", func: "complément direct du verbe", category: "verbe" },
+            { id: 63, text: "Il reçut un tonnerre d'applaudissements [après avoir réalisé un incroyable spectacle].", target: "après avoir réalisé un incroyable spectacle", func: "complément circumstantial de temps", category: "phrase" },
+            { id: 64, text: "Il [reçut] un tonnerre d'applaudissements après avoir réalisé un incroyable spectacle.", target: "reçut", func: "verbe", category: "verbe" },
+            { id: 65, text: "En classe, comme il ne comprend pas toujours le cours du professeur, il [lui] demande sans cesse de l'aide.", target: "lui", func: "complément indirect du verbe", category: "verbe" },
+            { id: 66, text: "En classe, comme il ne comprend pas toujours le cours du professeur, [il] lui demande sans cesse de l'aide.", target: "il", func: "sujet", category: "verbe" },
+            { id: 67, text: "Ma femme n'accepte [jamais] les remarques que je lui dis.", target: "jamais", func: "complément circonstanciel de temps", category: "phrase" },
+            { id: 68, text: "Ma femme n'accepte jamais les remarques [que je lui dis].", target: "que je lui dis", func: "complément du nom", category: "nom" },
+            { id: 69, text: "Ma femme n'accepte jamais [les remarques que je lui dis].", target: "les remarques que je lui dis", func: "complément direct du verbe", category: "verbe" },
+            { id: 70, text: "[Ma femme] n'accepte jamais les remarques que je lui dis.", target: "Ma femme", func: "sujet", category: "verbe" },
+            { id: 71, text: "Les élèves [qui avaient bien révisé] ont obtenu d’excellentes notes.", target: "qui avaient bien révisé", func: "complément du nom", category: "nom" },
+            { id: 72, text: "Les élèves qui avaient bien révisé ont obtenu d’[excellentes] notes.", target: "excellentes", func: "épithète", category: "nom" },
+            { id: 73, text: "Mme Loisel semblait [vieille], maintenant.", target: "vieille", func: "attribut du sujet", category: "nom" },
+            { id: 74, text: "Mme Loisel semblait vieille, maintenant. Elle était devenue [la femme forte et dure des ménages pauvres].", target: "la femme forte et dure des ménages pauvres", func: "attribut du sujet", category: "nom" },
+            { id: 75, text: "[Mme Loisel] semblait vieille, maintenant.", target: "Mme Loisel", func: "sujet", category: "verbe" },
+            { id: 76, text: "Mais [parfois], lorsque son mari était au bureau, elle s’asseyait auprès de la fenêtre...", target: "parfois", func: "complément circonstanciel de temps", category: "phrase" },
+            { id: 77, text: "Mais parfois, lorsque son mari était au bureau, elle s’asseyait [auprès de la fenêtre]...", target: "auprès de la fenêtre", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 78, text: "Mais parfois, lorsque son mari était au bureau, elle [s’asseyait] auprès de la fenêtre...", target: "s’asseyait", func: "verbe", category: "verbe" },
+            { id: 79, text: "[Tout le monde] le sait : aimer est parfois difficile.", target: "Tout le monde", func: "sujet", category: "verbe" },
+            { id: 80, text: "Tout le monde le sait : [aimer] est parfois difficile.", target: "aimer", func: "sujet", category: "verbe" },
+            { id: 81, text: "Tout le monde [le] sait : aimer est parfois difficile.", target: "le", func: "complément direct du verbe", category: "verbe" },
+            { id: 82, text: "Il dort [dans son camion].", target: "dans son camion", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 83, text: "Magalie offre [une fleur] à sa mère.", target: "une fleur", func: "complément direct du verbe", category: "verbe" },
+            { id: 84, text: "Magalie offre une fleur [à sa mère].", target: "à sa mère", func: "complément indirect du verbe", category: "verbe" },
+            { id: 85, text: "Magalie [offre] une fleur à sa mère.", target: "offre", func: "verbe", category: "verbe" },
+            { id: 86, text: "Il a été tué [par des insurgés] alors qu’il se promenait.", target: "par des insurgés", func: "complément d'agent", category: "verbe" },
+            { id: 87, text: "C'est [le grand jour] : l'examen commence bientôt.", target: "le grand jour", func: "complément du présentatif", category: "phrase" },
+            { id: 88, text: "Le fil [de la conversation] a été perdu brusquement.", target: "de la conversation", func: "complément du nom", category: "nom" },
+            { id: 89, text: "Le fil de la conversation a été perdu [brusquement].", target: "brusquement", func: "complément circonstanciel de manière", category: "phrase" },
+            { id: 90, text: "Les fleurs [que j'ai achetées] sentaient tellement bon.", target: "que j'ai achetées", func: "complément du nom", category: "nom" },
+            { id: 91, text: "Sous le pont Mirabeau coule [la Seine].", target: "la Seine", func: "sujet", category: "verbe" },
+            { id: 92, text: "Les yeux [perdus], le regard triste il se dit qu’il était plus malheureux.", target: "perdus", func: "épithète", category: "nom" },
+            { id: 93, text: "Regarde, c’est le garçon [qui t’a brisé le cœur].", target: "qui t’a brisé le cœur", func: "complément du nom", category: "nom" },
+            { id: 94, text: "Il y a [beaucoup d'étudiants] dans cette salle.", target: "beaucoup d'étudiants", func: "complément du présentatif", category: "phrase" },
+            { id: 95, text: "C’était un soir d’été noir et mélancolique. [Paul] se coucha.", target: "Paul", func: "sujet", category: "verbe" },
+            { id: 96, text: "C’était [un soir d’été noir et mélancolique]. Paul se coucha.", target: "un soir d’été noir et mélancolique", func: "complément du présentatif", category: "phrase" },
+            { id: 97, text: "J’aime ce quartier ; je viens [y] faire mes courses.", target: "y", func: "complément circonstanciel de lieu", category: "phrase" },
+            { id: 98, text: "[La veille], Clara avait essayé pour s’amuser la robe de sa mère.", target: "La veille", func: "complément circonstanciel de temps", category: "phrase" },
+            { id: 99, text: "La veille, Clara avait essayé [pour s’amuser] la robe de sa mère.", target: "pour s’amuser", func: "complément circonstanciel de but", category: "phrase" },
+            { id: 100, text: "La veille, Clara avait essayé pour s’amuser la robe [de sa mère].", target: "de sa mère", func: "complément du nom", category: "nom" }
+            { id: 101, text: "La veille, Clara avait essayé pour s’amuser [la robe de sa mère].", target: "la robe de sa mère", func: "complément direct du verbe", category: "verbe" }
+            { id: 102, text: "[Le temps] paraissait long au collège et Julia attendait avec impatience la fin de la semaine, parce qu'elle espérait revoir Karim.", target: "le temps", func: "sujet", category: "verbe" }
+            { id: 103, text: "Le temps paraissait long au collège et Julia attendait avec impatience la fin de la semaine, [parce qu'elle espérait revoir Karim].", target: "parce qu'elle espérait revoir Karim", func: "complément circonstanciel de cause", category: "phrase" }
+            { id: 104, text: "Le temps paraissait long au collège et Julia attendait [avec impatience] la fin de la semaine, parce qu'elle espérait revoir Karim.", target: "avec impatience", func: "complément circonstanciel de manière", category: "phrase" }
+            { id: 105, text: "Le temps paraissait long au collège et Julia attendait avec impatience [la fin de la semaine], parce qu'elle espérait revoir Karim.", target: "la fin de la semaine", func: "complément direct du verbe", category: "verbe" }
+            { id: 106, text: "Le temps paraissait [long] au collège et Julia attendait avec impatience la fin de la semaine, parce qu'elle espérait revoir Karim.", target: "long", func: "attribut du sujet", category: "nom" }
+            { id: 107, text: "Le temps paraissait long [au collège] et Julia attendait avec impatience la fin de la semaine, parce qu'elle espérait revoir Karim.", target: "au collège", func: "complément circonstanciel de lieu", category: "phrase" }
+            { id: 108, text: "Je doute [qu’il vienne à présent].", target: "qu'il vienne à présent", func: "complément direct du verbe", category: "verbe" }
+            { id: 109, text: "Il est devenu [un acteur de renommée internationale].", target: "un acteur de renommée internationale", func: "attribut du sujet", category: "nom" }
+            { id: 110, text: "Il est devenu un acteur [de renommée internationale].", target: "de renommée internationale", func: "complément du nom", category: "nom" }
+            { id: 111, text: "Il est devenu un acteur de renommée [internationale].", target: "internationale", func: "épithète", category: "nom" }
+            { id: 112, text: "Sans cesse, elle était attirée [par les couleurs vives].", target: "par les couleurs vives", func: "complément d'agent", category: "verbe" }
+            { id: 113, text: "C'étaient [de pauvres familles qui voulaient sortir de leur condition].", target: "de pauvres familles qui voulaient sortir de leur condition", func: "complément du présentatif", category: "verbe" }
+            { id: 114, text: "Tu [le] crois quand il raconte des histoires pareilles ?.", target: "le", func: "complément direct du verbe", category: "verbe" }
+            { id: 115, text: "Vous, vous allez [lui] en toucher un mot à un moment ou un autre ?.", target: "lui", func: "complément direct du verbe", category: "verbe" }
+            { id: 116, text: "Les fleurs qui étaient sublimes ont été cueillies [par de ravissants enfants].", target: "par de ravissants enfants", func: "complément d'agent", category: "verbe" }
+            { id: 117, text: "Les fleurs qui étaient sublimes ont été cueillies par de [ravissants] enfants.", target: "ravissants", func: "épithète", category: "nom" }
+            { id: 118, text: "[Les fleurs qui étaient sublimes] ont été cueillies par de ravissants enfants.", target: "Les fleurs qui étaient sublimes", func: "sujet", category: "verbe" }
+            { id: 119, text: "Est-ce que vous auriez envie d'aller au cinéma [ce weekend] ?.", target: "ce weekend", func: "complément circonstanciel de temps", category: "phrase" }
+            { id: 120, text: "Où et quand sont allés [les jeunes qui portaient un sac à dos] ?.", target: "les jeunes qui portaient un sac à dos", func: "sujet", category: "verbe" }          
+        ];
+
+        // All canonical grammatical functions list for distractors and selector options
+        const ALL_FUNCTIONS = [
+            "sujet",
+            "complément direct du verbe",
+            "complément indirect du verbe",
+            "attribut du sujet",
+            "épithète",
+            "apposition",
+            "complément circonstanciel de lieu",
+            "complément circonstanciel de temps",
+            "complément circonstanciel de manière",
+            "complément circonstanciel de but",
+            "complément circonstanciel de cause",
+            "complément du nom",
+            "verbe",
+            "complément d'agent",
+            "complément du présentatif"
+        ];
+
+        let currentGameMode = 1; // 1: Nature/Category, 2: MCQ 4 choice, 3: Type/Select
+        let currentSessionQuestions = [];
+        let currentQuestionIndex = 0;
+        let userScore = 0;
+        let currentStreak = 0;
+        let sessionCorrectCount = 0;
+        let isDyslexicMode = false;
+        let isSoundEnabled = true;
+        let fontScaleLevel = 0; // 0 normal, 1 large, 2 extra large
+
+        // Web Audio API synth sounds without external asset dependencies
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!isSoundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.linearRampToValueAtTime(150, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'finish') {
+                    // Celebration chime
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(554.37, now + 0.1);
+                    osc.frequency.setValueAtTime(659.25, now + 0.2);
+                    osc.frequency.setValueAtTime(880, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+                    osc.start(now);
+                    osc.stop(now + 0.6);
+                }
+            } catch (e) {
+                console.log("Audio not supported or blocked");
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-brand-blue', 'text-brand-blue');
+                btn.classList.add('border-transparent', 'text-slate-600');
+            });
+
+            const activeTabContent = document.getElementById(tabId);
+            if (activeTabContent) {
+                activeTabContent.classList.remove('hidden');
+            }
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('border-brand-blue', 'text-brand-blue');
+                activeBtn.classList.remove('border-transparent', 'text-slate-600');
+            }
+
+            if (tabId === 'tab-practice' && currentSessionQuestions.length === 0) {
+                startNewPracticeSession();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleDyslexicFont() {
+            isDyslexicMode = !isDyslexicMode;
+            const body = document.getElementById('app-body');
+            const btn = document.getElementById('dys-btn');
+
+            if (isDyslexicMode) {
+                body.classList.add('font-dyslexic');
+                btn.classList.add('text-brand-yellow', 'font-bold');
+            } else {
+                body.classList.remove('font-dyslexic');
+                btn.classList.remove('text-brand-yellow', 'font-bold');
+            }
+        }
+
+        function toggleTextSize() {
+            fontScaleLevel = (fontScaleLevel + 1) % 3;
+            const body = document.getElementById('app-body');
+            body.classList.remove('text-sm', 'text-base', 'text-lg');
+
+            if (fontScaleLevel === 1) {
+                body.classList.add('text-base');
+            } else if (fontScaleLevel === 2) {
+                body.classList.add('text-lg');
+            } else {
+                body.classList.add('text-sm');
+            }
+        }
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            const soundText = document.getElementById('sound-text');
+            soundText.innerText = isSoundEnabled ? "Sons ON" : "Sons OFF";
+        }
+
+        function readCurrentSentence() {
+            if (!('speechSynthesis' in window)) {
+                alert("La synthèse vocale n'est pas supportée sur votre navigateur.");
+                return;
+            }
+
+            window.speechSynthesis.cancel(); // Stop any active speech
+            const q = currentSessionQuestions[currentQuestionIndex];
+            if (!q) return;
+
+            // Remove square brackets for natural reading
+            const cleanText = q.text.replace(/\[|\]/g, '');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9; // slightly slower for better accessibility
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function setGameMode(mode) {
+            currentGameMode = mode;
+            document.querySelectorAll('.mode-btn').forEach((btn, idx) => {
+                if (idx + 1 === mode) {
+                    btn.className = "mode-btn font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition bg-brand-blue text-white shadow-sm";
+                } else {
+                    btn.className = "mode-btn font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition text-slate-600 hover:text-brand-blue";
+                }
+            });
+
+            const badgeTitles = {
+                1: "Jeu 1: Identifier la catégorie (Verbe, Nom, Phrase)",
+                2: "Jeu 2: Choix multiple (QCM)",
+                3: "Jeu 3: Saisie guidée de la fonction"
+            };
+            document.getElementById('mode-badge-title').innerText = badgeTitles[mode];
+
+            startNewPracticeSession();
+        }
+
+        function startNewPracticeSession() {
+            // Shuffle and pick 10 random questions
+            const shuffled = [...SENTENCE_BANK].sort(() => 0.5 - Math.random());
+            currentSessionQuestions = shuffled.slice(0, 10);
+            currentQuestionIndex = 0;
+            sessionCorrectCount = 0;
+
+            document.getElementById('quiz-card').classList.remove('hidden');
+            document.getElementById('quiz-recap-screen').classList.add('hidden');
+
+            renderQuestion();
+        }
+
+        function restartCurrentGame() {
+            startNewPracticeSession();
+        }
+
+        function renderQuestion() {
+            const q = currentSessionQuestions[currentQuestionIndex];
+            if (!q) return;
+
+            // Reset feedback
+            document.getElementById('feedback-container').classList.add('hidden');
+
+            // Update Progress bar & Numbers
+            document.getElementById('current-q-num').innerText = `${currentQuestionIndex + 1}/10`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+
+            // Format sentence: highlight target inside brackets
+            const formattedSentence = q.text.replace(/\[(.*?)\]/g, `<mark class="bg-brand-yellow/30 text-brand-blue font-bold px-2 py-0.5 rounded border-b-2 border-brand-yellow">$1</mark>`);
+            document.getElementById('sentence-container').innerHTML = formattedSentence;
+
+            // Render Interaction Area based on Game Mode
+            const area = document.getElementById('game-interaction-area');
+            area.innerHTML = '';
+
+            if (currentGameMode === 1) {
+                // Game Mode 1: Identify Nature / Category (3 choices)
+                area.innerHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="checkAnswer('verbe')" class="quiz-option-btn p-4 bg-slate-50 hover:bg-brand-blue hover:text-white border-2 border-slate-200 hover:border-brand-blue rounded-xl font-bold text-center transition flex flex-col items-center gap-1 group">
+                            <span class="text-xs uppercase text-slate-400 group-hover:text-amber-300 font-bold">Catégorie A</span>
+                            <span class="text-base">Fonction / Verbe</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-200">Sujet, CDV, CDI, Agent...</span>
+                        </button>
+                        <button onclick="checkAnswer('nom')" class="quiz-option-btn p-4 bg-slate-50 hover:bg-brand-blue hover:text-white border-2 border-slate-200 hover:border-brand-blue rounded-xl font-bold text-center transition flex flex-col items-center gap-1 group">
+                            <span class="text-xs uppercase text-slate-400 group-hover:text-amber-300 font-bold">Catégorie B</span>
+                            <span class="text-base">Expansion du Nom</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-200">Épithète, CDN, Apposition...</span>
+                        </button>
+                        <button onclick="checkAnswer('phrase')" class="quiz-option-btn p-4 bg-slate-50 hover:bg-brand-blue hover:text-white border-2 border-slate-200 hover:border-brand-blue rounded-xl font-bold text-center transition flex flex-col items-center gap-1 group">
+                            <span class="text-xs uppercase text-slate-400 group-hover:text-amber-300 font-bold">Catégorie C</span>
+                            <span class="text-base">À toute la Phrase</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-200">Circonstanciels (Temps, Lieu...)</span>
+                        </button>
+                    </div>
+                `;
+            } else if (currentGameMode === 2) {
+                // Game Mode 2: Multiple Choice (4 Choices generated from canonical list)
+                const correctAnswer = q.func.toLowerCase();
+                let distractors = ALL_FUNCTIONS.filter(f => f.toLowerCase() !== correctAnswer);
+                distractors = distractors.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                const options = [correctAnswer, ...distractors].sort(() => 0.5 - Math.random());
+
+                let optionsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;
+                options.forEach(opt => {
+                    const capitalisedOpt = opt.charAt(0).toUpperCase() + opt.slice(1);
+                    optionsHTML += `
+                        <button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}')" class="quiz-option-btn p-4 bg-slate-50 hover:bg-brand-blue hover:text-white border-2 border-slate-200 hover:border-brand-blue rounded-xl font-bold text-left transition flex items-center justify-between group">
+                            <span class="capitalize text-slate-800 group-hover:text-white text-sm sm:text-base">${capitalisedOpt}</span>
+                            <span class="w-6 h-6 rounded-full border border-slate-300 group-hover:border-brand-yellow flex items-center justify-center text-xs text-transparent group-hover:text-brand-yellow font-bold">✓</span>
+                        </button>
+                    `;
+                });
+                optionsHTML += `</div>`;
+                area.innerHTML = optionsHTML;
+
+            } else if (currentGameMode === 3) {
+                // Game Mode 3: Interactive Guided Selection or Type Helper
+                let selectOptions = ALL_FUNCTIONS.map(f => `<option value="${f}">${f.charAt(0).toUpperCase() + f.slice(1)}</option>`).join('');
+
+                area.innerHTML = `
+                    <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <label for="function-select" class="block font-bold text-slate-800 text-sm">Sélectionne la fonction exacte dans le menu déroulant :</label>
+                        <select id="function-select" class="w-full p-3 bg-white border-2 border-slate-300 rounded-xl font-medium text-slate-800 focus:border-brand-blue focus:outline-none">
+                            <option value="">-- Choisir une fonction --</option>
+                            ${selectOptions}
+                        </select>
+                        
+                        <button onclick="submitGuidedAnswer()" class="w-full py-3 bg-brand-red hover:bg-red-800 text-white font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
+                            <span>Valider ma réponse</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function checkAnswer(userChoice) {
+            const q = currentSessionQuestions[currentQuestionIndex];
+            if (!q) return;
+
+            // Disable all interactive buttons in the interaction area to prevent double taps
+            document.querySelectorAll('.quiz-option-btn').forEach(btn => btn.disabled = true);
+
+            let isCorrect = false;
+            let expectedText = "";
+
+            if (currentGameMode === 1) {
+                isCorrect = (userChoice.toLowerCase() === q.category.toLowerCase());
+                expectedText = `Cette fonction s'appuie sur la catégorie : <strong>${getCategoryName(q.category)}</strong> (${q.func}).`;
+            } else {
+                // Mode 2 & 3
+                const normalizedUser = userChoice.trim().toLowerCase();
+                const normalizedTarget = q.func.trim().toLowerCase();
+                isCorrect = (normalizedUser === normalizedTarget);
+                expectedText = `La réponse correcte est : <strong class="capitalize">${q.func}</strong>.`;
+            }
+
+            // Feedback display
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const feedbackIcon = document.getElementById('feedback-icon');
+
+            feedbackContainer.classList.remove('hidden');
+
+            if (isCorrect) {
+                playSound('success');
+                userScore += 10;
+                currentStreak += 1;
+                sessionCorrectCount += 1;
+
+                feedbackBox.className = "p-4 sm:p-5 rounded-2xl border flex items-start gap-4 bg-emerald-50 border-emerald-300 text-emerald-900";
+                feedbackIcon.className = "p-2 rounded-xl text-xl flex-shrink-0 bg-emerald-200 text-emerald-800";
+                feedbackIcon.innerHTML = "👏";
+                feedbackTitle.innerText = getRandomCongratulation();
+                feedbackMessage.innerHTML = `${expectedText} Bravo, +10 points !`;
+            } else {
+                playSound('error');
+                currentStreak = 0;
+
+                feedbackBox.className = "p-4 sm:p-5 rounded-2xl border flex items-start gap-4 bg-rose-50 border-rose-300 text-rose-900";
+                feedbackIcon.className = "p-2 rounded-xl text-xl flex-shrink-0 bg-rose-200 text-rose-800";
+                feedbackIcon.innerHTML = "💡";
+                feedbackTitle.innerText = "Attention / À revoir !";
+                feedbackMessage.innerHTML = `${expectedText} Ne te décourage pas, la prochaine sera la bonne !`;
+            }
+
+            // Update Header Score display
+            document.getElementById('user-score').innerText = userScore;
+            document.getElementById('user-streak').innerText = `⚡ ${currentStreak}`;
+        }
+
+        function submitGuidedAnswer() {
+            const selectEl = document.getElementById('function-select');
+            const val = selectEl.value;
+            if (!val) {
+                alert("Veuillez d'abord sélectionner une fonction.");
+                return;
+            }
+            checkAnswer(val);
+        }
+
+        function getCategoryName(catKey) {
+            if (catKey === 'verbe') return "Les fonctions par rapport au verbe";
+            if (catKey === 'nom') return "Les fonctions par rapport au nom";
+            if (catKey === 'phrase') return "Les fonctions par rapport à toute la phrase";
+            return catKey;
+        }
+
+        function getRandomCongratulation() {
+            const congrats = [
+                "Excellente réponse !",
+                "Bravo, c'est tout à fait ça !",
+                "Super réflexe grammatical !",
+                "C'est parfait !",
+                "Une maîtrise remarquable !"
+            ];
+            return congrats[Math.floor(Math.random() * congrats.length)];
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex += 1;
+
+            if (currentQuestionIndex < 10) {
+                renderQuestion();
+            } else {
+                finishSession();
+            }
+        }
+
+        function finishSession() {
+            playSound('finish');
+
+            // Trigger confetti animation for gamification
+            try {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } catch(e) {}
+
+            document.getElementById('quiz-card').classList.add('hidden');
+            const recap = document.getElementById('quiz-recap-screen');
+            recap.classList.remove('hidden');
+
+            const accuracy = Math.round((sessionCorrectCount / 10) * 100);
+            document.getElementById('recap-score').innerText = `${sessionCorrectCount} / 10`;
+            document.getElementById('recap-points').innerText = `+${sessionCorrectCount * 10} pts`;
+            document.getElementById('recap-accuracy').innerText = `${accuracy}%`;
+
+            const msgEl = document.getElementById('recap-motivation-msg');
+            if (accuracy >= 80) {
+                msgEl.innerText = "Résultat exceptionnel ! Tu es parfaitement prêt(e) pour briller lors du CE1D !";
+            } else if (accuracy >= 50) {
+                msgEl.innerText = "Très bon travail ! Relis la fiche 'J'étudie' pour consolider tes quelques hésitations.";
+            } else {
+                msgEl.innerText = "Bon entraînement ! La grammaire s'acquiert avec de la pratique régulier. Recommence une série !";
+            }
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            // Default to Tab 1
+            switchTab('tab-intro');
+        };
+    </script>
+</body>
+</html>
